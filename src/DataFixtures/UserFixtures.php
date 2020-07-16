@@ -37,15 +37,17 @@ class UserFixtures extends Fixture
                 ->setNom($faker->lastName)
                 ->setPassword($hash)
                 ->setPrenom($faker->firstName)
-                ->setPseudo($faker->userName)
+                ->setPseudo($faker->unique()->userName)
                 ->setTelephone($faker->numerify('0#########'))
                 ->setInscription($faker->dateTime)
                 ->setRoles(['ROLE_USER'])
 
 ;
 
+            $reference='user_' . $i;
+            $this->addReference($reference, $user);
 
-        $manager->persist($user);
+            $manager->persist($user);
         }
 
 // Créer 5 moderateurs
@@ -82,6 +84,7 @@ class UserFixtures extends Fixture
 
 
             $manager->persist($admin);
+            //Définir une réference sur l'entité , pour la recuperer  dans d'autres fixtures
         }
         $manager->flush();
     }
