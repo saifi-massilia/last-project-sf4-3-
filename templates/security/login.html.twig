@@ -1,0 +1,64 @@
+{% extends "_template.html.twig" %}
+
+{% block title %}
+    Connexion
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered section">
+        <div class="column is-one-third box">
+            <h1 class="title has-text-primary has-text-centered">Connexion</h1>
+            {% include'includes/flashes.html.twig' %}
+
+            {# si une erreur survient #}
+            {% if error %}
+                <div class="notification is-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {# formulaire de connexion #}
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" value="{{ last_username }}" id="email" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="mdp">Mot De Passe</label>
+                    <input type="password" class="form-control" id="mdp" required>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="leCheck">
+                    <label class="form-check-label" for="leCheck">Check me out</label>
+                </div>
+                {# un champ caché pour la protection des failles CSRF #}
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn btn-primary">valider</button>
+            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

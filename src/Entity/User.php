@@ -6,11 +6,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+* @ORM\HasLifecycleCallbacks()
  */
+
 class User implements UserInterface
 {
     /**
@@ -77,8 +81,19 @@ class User implements UserInterface
         $this->notes = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * Méthode exécutée avant l'insertion en base
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
     {
+        if ($this->inscription===null){
+            $this->inscription =new \DateTime();
+        }
+
+    }
+
+    public function getId(): ?int{
         return $this->id;
     }
 
